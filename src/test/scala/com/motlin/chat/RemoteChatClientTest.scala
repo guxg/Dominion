@@ -12,12 +12,11 @@ class RemoteChatClientTest
 	{
 		val loginService = Actor.remote.typedActorFor(classOf[LoginService], "login-service", "localhost", 4200)
 		val user = loginService.login("user 1", "password").get
-		val chatSession = user.joinChatRoom("room 1", new MessageLogAdapter
-		{
-			var messages = List[Message]()
-			def add(message: Message) { messages ::= message }
-		})
-		chatSession.chat("hello 1")
-
+//		val chatSession = user.joinChatRoom("room 1", new MessageLogAdapter
+//		{
+//			var messages = List[Message]()
+//			def add(message: Message) { messages ::= message }
+//		})
+//		chatSession.chat("hello 1")
 	}
 }
