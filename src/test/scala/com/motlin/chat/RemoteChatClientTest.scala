@@ -1,9 +1,10 @@
 package com.motlin.chat
 
-import impl.{Message, MessageLogAdapter}
+import api.{ChatRoom, MessageLog}
+import impl.{ChatRoomImpl, Message, MessageLogImpl}
 import org.junit.Test
-import akka.actor.Actor
-import com.motlin.user.api.LoginService
+import com.motlin.user.api.{User, LoginService}
+import akka.actor.{TypedActor, Actor}
 
 class RemoteChatClientTest
 {
@@ -11,12 +12,10 @@ class RemoteChatClientTest
 	def smoke_test()
 	{
 		val loginService = Actor.remote.typedActorFor(classOf[LoginService], "login-service", "localhost", 4200)
-		val user = loginService.login("user 1", "password").get
-//		val chatSession = user.joinChatRoom("room 1", new MessageLogAdapter
-//		{
-//			var messages = List[Message]()
-//			def add(message: Message) { messages ::= message }
-//		})
-//		chatSession.chat("hello 1")
+		val user: User = loginService.login("user 1", "password").get
+
+		val messageLog = TypedActor.newInstance(classOf[MessageLog], classOf[MessageLogImpl])
+		val chatSession = user.joinChatRoom("room 1", MessageLogImpl.serialize(messageLog))
+		chatSession.chat("hello 1")
 	}
 }

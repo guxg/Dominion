@@ -4,7 +4,7 @@ import akka.actor.TypedActor
 import api.{ChatService, MessageLog}
 import com.motlin.user.api.LoginService
 import com.motlin.user.impl.LoginServiceImpl
-import impl.{ChatServiceImpl, Message, MessageLogAdapter}
+import impl.{ChatServiceImpl, Message, MessageLogImpl}
 import org.junit.{Assert, Test}
 
 class ChatServiceImplTest
@@ -18,15 +18,7 @@ class ChatServiceImplTest
 		def createMessageLog(userName: String, message: String) =
 		{
 			val user = loginService.login(userName, "password").get
-			val messageLog = TypedActor.newInstance(classOf[MessageLog], new MessageLogAdapter()
-			{
-				var messages: List[Message] = List()
-
-				def add(message: Message)
-				{
-					messages ::= message
-				}
-			})
+			val messageLog = TypedActor.newInstance(classOf[MessageLog], classOf[MessageLogImpl])
 //			val chatRoom = user.joinChatRoom("test room", messageLog)
 //			chatRoom.chat(message)
 //			messageLog
