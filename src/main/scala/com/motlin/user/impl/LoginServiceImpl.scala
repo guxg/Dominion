@@ -3,9 +3,9 @@ package com.motlin.user.impl
 import scala.collection.mutable.{Map => MMap}
 import com.motlin.user.api.{User, LoginService}
 import com.motlin.chat.api.ChatService
-import akka.actor.TypedActor
 import akka.serialization.{Serializer, SerializerBasedActorFormat, TypedActorSerialization}
 import com.motlin.user.impl.LoginServiceImpl.SerializationProxy
+import akka.actor.{Actor, TypedActor}
 
 
 object LoginServiceImpl
